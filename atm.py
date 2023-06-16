@@ -5,7 +5,7 @@ class Atm:
     def __init__(self):
         pass
     
-
+    # Login sonrası ekran
     def banking(self,username):
         cursor = collection.find_one({'username': f'{username}'})
         if cursor:
@@ -22,11 +22,11 @@ class Atm:
                 choice = input('Yapacağınız işlem')
                 if choice == "1":
                     amount = self.deposit(amount=amount)
-                    cursor = collection.find({})
+                    # burada mongoya amount yazılacak
         else:
             print('paranız yok para yükleyin')
 
-
+    # Giriş
     def login(self):
         username = input('Kullanıcı adınız ?')
         password = input('Şifreniz ?')
@@ -38,7 +38,7 @@ class Atm:
                 self.banking(username=username)
             else:
                 print('Kullanıcı adı veya şifre yalnış')
-        
+    # Kayıt
     def register(self):
         username = input('Kullanıcı adınız ?')
         name = input('Adınız ?')
@@ -81,6 +81,10 @@ class Atm:
     #     else:
     #         print('Lütfen Giriş Yapınız.')
 
+
+
+
+    # Para yatırma
     def deposit(self,amount):
         money = input('Kaç para yatırmak istiyorsunuz ?')
         amount += int(money)

@@ -1,5 +1,6 @@
 from atm import Atm
 
+#Atm uygulaması
 
 while True:
 
