@@ -1,8 +1,6 @@
 from atm import Atm
 
 
-
-
 while True:
 
     choice = input('''
