@@ -16,19 +16,22 @@ class Atm:
                 {amount}
 
                 1-) Para yatır
-                2-) Geri git
+                2-) Para çek
+                3-) Geri git
 
                 ''')
                 choice = input('Yapacağınız işlem')
                 if choice == "1":
                     amount = self.deposit(amount=amount,username=username)
+                elif choice == "2":
+                    amount = self.withdraw(amount,username)
         else:
             print('paranız yok para yükleyin')
 
     # Giriş
     def login(self):
-        username = input('Kullanıcı adınız ?')
-        password = input('Şifreniz ?')
+        username = input('Kullanıcı adınız ? ')
+        password = input('Şifreniz ? ')
         cursor = collection.find({})
 
         for client in cursor:
@@ -39,10 +42,10 @@ class Atm:
                 print('Kullanıcı adı veya şifre yalnış')
     # Kayıt
     def register(self):
-        username = input('Kullanıcı adınız ?')
-        name = input('Adınız ?')
-        surname = input('Soyadınız ?')
-        password = input('Şifreniz ?')
+        username = input('Kullanıcı adınız ? ')
+        name = input('Adınız ? ')
+        surname = input('Soyadınız ? ')
+        password = input('Şifreniz ? ')
 
         credentials = {
             'username': username,
@@ -74,11 +77,20 @@ class Atm:
 
         
 
-    # def withdraw(self):
-    #     if self.isLoggedIn == True:
-    #         print('giriş yapıldı.')
-    #     else:
-    #         print('Lütfen Giriş Yapınız.')
+    def withdraw(self,amount,username):
+        withdraw_money = input('Kaç para çekmek istiyorsunuz ? ')
+        withdraw_money = int(withdraw_money)
+        amount = int(amount)
+        if withdraw_money > 0:
+            amount -= withdraw_money
+            mongo_filter = {'username': f'{username}'}
+            update_amount = {'$set': {'amount': f'{int(amount)}'}}
+            collection.update_one(mongo_filter,update_amount)
+            print('Para çekildi.')
+            return str(amount)
+
+
+
 
 
 
@@ -87,10 +99,10 @@ class Atm:
     def deposit(self,amount,username):
         money = input('Kaç para yatırmak istiyorsunuz ?')
         amount += int(money)
-        print('Para yatırıldı.')
         mongo_filter = {'username': f'{username}'}
         update_amount = {'$set': {'amount': f'{int(amount)}'}}
         collection.update_one(mongo_filter,update_amount)
+        print('Para yatırıldı.')
         return amount
         
 
