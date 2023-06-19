@@ -21,8 +21,7 @@ class Atm:
                 ''')
                 choice = input('Yapacağınız işlem')
                 if choice == "1":
-                    amount = self.deposit(amount=amount)
-                    # burada mongoya amount yazılacak
+                    amount = self.deposit(amount=amount,username=username)
         else:
             print('paranız yok para yükleyin')
 
@@ -85,10 +84,13 @@ class Atm:
 
 
     # Para yatırma
-    def deposit(self,amount):
+    def deposit(self,amount,username):
         money = input('Kaç para yatırmak istiyorsunuz ?')
         amount += int(money)
         print('Para yatırıldı.')
+        mongo_filter = {'username': f'{username}'}
+        update_amount = {'$set': {'amount': f'{int(amount)}'}}
+        collection.update_one(mongo_filter,update_amount)
         return amount
         
 
